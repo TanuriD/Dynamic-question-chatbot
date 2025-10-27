@@ -1,12 +1,8 @@
-# -------------------------------
-# 🌤️ Weather App using OpenWeather API
-# Language: Python 3
-# -------------------------------
 
 import requests
 
 # Your OpenWeather API key
-API_KEY = "f72d16875c109d22d0c9119ed9d5c288"  # 🔹 Replace with your own API key
+API_KEY = "f72d16875c109d22d0c9119ed9d5c288" 
 
 def get_weather(city_name):
     """Fetch weather data for a given city using OpenWeather API."""
@@ -16,7 +12,7 @@ def get_weather(city_name):
     params = {
         'q': city_name,
         'appid': API_KEY,
-        'units': 'metric'  # Use 'imperial' for Fahrenheit
+        'units': 'metric' 
     }
 
     try:
@@ -49,11 +45,9 @@ def get_weather(city_name):
     except KeyError:
         print("⚠️ Invalid city name or missing data. Try again!")
 
-# -------------------------------
-# 🏁 Main Program Starts Here
-# -------------------------------
 if __name__ == "__main__":
     print("🌦️ Welcome to the Python Weather App 🌦️")
     print("-------------------------------------------")
     city = input("Enter a city name: ").strip()
     get_weather(city)
+
