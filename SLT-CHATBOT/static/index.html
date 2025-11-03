@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SLT-CHATBOT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🏢 SLT-CHATBOT</h1>
+        <p>Intelligent Telecom Support Assistant</p>
+      </div>
+      <div class="content">
+        <div class="input-group">
+          <input id="phone" placeholder="Enter landline number (e.g., 011861547)" />
+          <button class="btn" onclick="initSession()">🚀 Start Session</button>
+        </div>
+        <div id="meta" class="meta" style="display:none;"></div>
+        <div id="chat" class="chat-container" style="display:none;">
+          <div class="message system-message">
+            💬 Chat session will begin here...
+          </div>
+        </div>
+        <div id="input-area" style="display:none; margin-top:20px;">
+          <div class="input-group">
+            <input id="msg" placeholder="Type your message..." />
+            <button class="btn" onclick="sendMsg()">📤 Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let sessionId = null;
+      let isTyping = false;
+
+      async function initSession(){
+        const phone = document.getElementById('phone').value.trim();
+        if(!phone) { alert('Please enter a landline number'); return; }
+
+        const btn = document.querySelector('.btn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Starting...';
+
+        try {
+          const res = await fetch('/init', {
+            method:'POST', 
+            headers:{'Content-Type':'application/json'}, 
+            body: JSON.stringify({phone})
+          });
+          const data = await res.json();
+
+          if(data.error){ 
+            alert('Error: ' + data.error); 
+            return; 
+          }
+
+          sessionId = data.session_id;
+          document.getElementById('meta').innerHTML = 
+            `<strong>📍 District:</strong> ${data.district} | <strong>🌤️ Weather:</strong> ${data.weather}`;
+          document.getElementById('meta').style.display = 'block';
+          document.getElementById('chat').style.display = 'block';
+          document.getElementById('input-area').style.display = 'block';
+
+          const chat = document.getElementById('chat');
+          chat.innerHTML = `
+            <div class="message system-message">${data.system_message}</div>
+            <div class="message bot-message">${data.first_question}</div>
+          `;
+
+        } catch(error) {
+          alert('Connection error: ' + error.message);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = '🚀 Start Session';
+        }
+      }
+
+      async function sendMsg(){
+        if(!sessionId){ alert('Please start a session first'); return; }
+
+        const message = document.getElementById('msg').value.trim();
+        if(!message) return;
+
+        const chat = document.getElementById('chat');
+        const msgInput = document.getElementById('msg');
+        const sendBtn = document.querySelector('#input-area .btn');
+
+        // Add user message
+        chat.innerHTML += `<div class="message user-message">${message}</div>`;
+        msgInput.value = '';
+        sendBtn.disabled = true;
+        sendBtn.textContent = '⏳ Sending...';
+
+        // Add typing indicator
+        chat.innerHTML += `<div class="message bot-message typing">🤖 Assistant is typing...</div>`;
+        chat.scrollTop = chat.scrollHeight;
+
+        try {
+          const res = await fetch('/chat', {
+            method:'POST', 
+            headers:{'Content-Type':'application/json'}, 
+            body: JSON.stringify({session_id: sessionId, message})
+          });
+          const data = await res.json();
+
+          // Remove typing indicator
+          chat.innerHTML = chat.innerHTML.replace('<div class="message bot-message typing">🤖 Assistant is typing...</div>', '');
+
+          if(data.final){
+            chat.innerHTML += `<div class="message final-message">🎯 Routing Complete: ${JSON.stringify(data.final, null, 2)}</div>`;
+            sessionId = null; // End session
+            document.getElementById('input-area').style.display = 'none';
+          } else if(data.response){
+            chat.innerHTML += `<div class="message bot-message">🤖 ${data.response}</div>`;
+          } else if(data.error){
+            chat.innerHTML += `<div class="message bot-message" style="background:#ffebee;border-color:#f44336;">❌ Error: ${data.error}</div>`;
+          }
+
+        } catch(error) {
+          chat.innerHTML = chat.innerHTML.replace('<div class="message bot-message typing">🤖 Assistant is typing...</div>', '');
+          chat.innerHTML += `<div class="message bot-message" style="background:#ffebee;border-color:#f44336;">❌ Connection Error: ${error.message}</div>`;
+        } finally {
+          sendBtn.disabled = false;
+          sendBtn.textContent = '📤 Send';
+          chat.scrollTop = chat.scrollHeight;
+        }
+      }
+
+      // Allow Enter key to send message
+      document.addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') sendMsg();
+      });
+    </script>
+  </body>
+  </html>
+
+
