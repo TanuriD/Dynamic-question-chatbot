@@ -1,4 +1,4 @@
-<!doctype html>
+<!-- <!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -201,6 +201,264 @@
             card.appendChild(title);
             card.appendChild(body);
             card.appendChild(badges);
+
+            chat.appendChild(card);
+
+            // end session
+            sessionId = null;
+            document.getElementById('input-area').style.display = 'none';
+            chat.scrollTop = chat.scrollHeight;
+          } else if (data.response) {
+            appendMessage('bot-message', `🤖 ${data.response}`);
+          } else if (data.error) {
+            appendMessage('bot-message', `❌ Error: ${data.error}`);
+          }
+        } catch(error) {
+          if (typingEl.parentNode) typingEl.parentNode.removeChild(typingEl);
+          appendMessage('bot-message', `❌ Connection Error: ${error.message}`);
+        } finally {
+          sendBtn.disabled = false;
+          sendBtn.textContent = prev;
+          msgInput.focus();
+        }
+      }
+
+      // ---- Enter key behavior ----
+      document.addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter') return;
+        if (e.target.id === 'phone') {
+          e.preventDefault(); initSession();
+        } else if (e.target.id === 'msg') {
+          e.preventDefault(); sendMsg();
+        }
+      });
+    </script>
+  </body>
+</html> -->
+
+
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SLT-CHATBOT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🏢 SLT-CHATBOT</h1>
+        <p>Intelligent Telecom Support Assistant</p>
+      </div>
+      <div class="content">
+        <div class="input-group">
+          <input id="phone"
+                 type="text"
+                 inputmode="numeric"
+                 autocomplete="tel-national"
+                 placeholder="Enter landline number (e.g., 011861547)"
+                 maxlength="12" />
+          <button id="start-btn" class="btn" onclick="initSession()" disabled>🚀 Start Session</button>
+        </div>
+        <small id="phone-error" style="color:#c0392b;display:none;">
+          Please enter a valid landline number (digits only).
+        </small>
+
+        <div id="meta" class="meta" style="display:none;"></div>
+        <div id="chat" class="chat-container" style="display:none;">
+          <div class="message system-message">
+            💬 Chat session will begin here...
+          </div>
+        </div>
+        <div id="input-area" style="display:none; margin-top:20px;">
+          <div class="input-group">
+            <input id="msg" placeholder="Type your message..." />
+            <button id="send-btn" class="btn" onclick="sendMsg()">📤 Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let sessionId = null;
+
+      // ---- phone validation (front end) ----
+      const phoneInput = document.getElementById('phone');
+      const startBtn   = document.getElementById('start-btn');
+      const phoneErr   = document.getElementById('phone-error');
+
+      phoneInput.addEventListener('input', (e) => {
+        let v = e.target.value;
+        v = v.replace(/[^\d+]/g, '');          // keep digits & '+'
+        if (v.indexOf('+') > 0) v = v.replace(/\+/g, ''); // only allow '+' at start
+        if (v.startsWith('++')) v = v.replace(/^\++/, '+');
+        v = v.replace(/^(\+94)0/, '$1');       // normalize +94 0xxxx -> +94 xxxx
+        e.target.value = v;
+        validatePhone();
+      });
+
+      function normalizeDigits(raw) {
+        return (raw || '').replace(/\D/g, '');
+      }
+      function isValidDigits(digits) {
+        // Accept 7–10 digits after stripping +94/leading 0 (match backend)
+        return /^\d{7,10}$/.test(digits);
+      }
+      function validatePhone() {
+        const digits = normalizeDigits(phoneInput.value);
+        const ok = isValidDigits(digits);
+        startBtn.disabled = !ok;
+        phoneErr.style.display = ok ? 'none' : 'inline';
+        return ok;
+      }
+      window.addEventListener('DOMContentLoaded', () => {
+        validatePhone();
+        phoneInput.focus();
+      });
+
+      // safe appenders (avoid XSS)
+      function appendMessage(cssClass, text) {
+        const chat = document.getElementById('chat');
+        const div = document.createElement('div');
+        div.className = `message ${cssClass}`;
+        div.textContent = text;
+        chat.appendChild(div);
+        chat.scrollTop = chat.scrollHeight;
+      }
+
+      // ---- start session ----
+      async function initSession(){
+        if (!validatePhone()) return;
+
+        const phone = phoneInput.value.trim();
+        startBtn.disabled = true;
+        const prevText = startBtn.textContent;
+        startBtn.textContent = '⏳ Starting...';
+
+        try {
+          const res = await fetch('/init', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ phone })
+          });
+          const data = await res.json();
+
+          if (!res.ok) {
+            const msg = (Array.isArray(data.detail) && data.detail[0]?.msg) || data.detail || data.error || 'Invalid number';
+            alert(msg);
+            return;
+          }
+          if (data.error){
+            alert('Error: ' + data.error);
+            return;
+          }
+
+          sessionId = data.session_id;
+          document.getElementById('meta').innerHTML =
+            `<strong>📍 District:</strong> ${data.district} | <strong>🌤️ Weather:</strong> ${data.weather}`;
+          document.getElementById('meta').style.display = 'block';
+          document.getElementById('chat').style.display = 'block';
+          document.getElementById('input-area').style.display = 'block';
+
+          const chat = document.getElementById('chat');
+          chat.innerHTML = `
+            <div class="message system-message">${data.system_message}</div>
+            <div class="message bot-message">${data.first_question}</div>
+          `;
+        } catch (error) {
+          alert('Connection error: ' + error.message);
+        } finally {
+          startBtn.disabled = false;
+          startBtn.textContent = prevText;
+        }
+      }
+
+      // ---- send message ----
+      async function sendMsg(){
+        if(!sessionId){ alert('Please start a session first'); return; }
+
+        const message = document.getElementById('msg').value.trim();
+        if(!message) return;
+
+        const chat = document.getElementById('chat');
+        const msgInput = document.getElementById('msg');
+        const sendBtn = document.getElementById('send-btn');
+
+        appendMessage('user-message', message);
+        msgInput.value = '';
+        sendBtn.disabled = true;
+        const prev = sendBtn.textContent;
+        sendBtn.textContent = '⏳ Sending...';
+
+        // typing indicator
+        const typingEl = document.createElement('div');
+        typingEl.className = 'message bot-message typing';
+        typingEl.textContent = '🤖 Assistant is typing...';
+        chat.appendChild(typingEl);
+        chat.scrollTop = chat.scrollHeight;
+
+        try {
+          const res = await fetch('/chat', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ session_id: sessionId, message })
+          });
+          const data = await res.json();
+
+          // remove typing
+          if (typingEl.parentNode) typingEl.parentNode.removeChild(typingEl);
+
+          if (data.final) {
+            // Friendly conclusion card with structured layout
+            const card = document.createElement('div');
+            card.className = 'message final-message summary-card';
+
+            const title = document.createElement('div');
+            title.className = 'summary-title';
+            title.textContent = '🎯 Conclusion';
+
+            // Reason section
+            const reasonSection = document.createElement('div');
+            reasonSection.className = 'summary-section';
+            
+            const reasonLabel = document.createElement('div');
+            reasonLabel.className = 'section-label';
+            reasonLabel.textContent = '📋 Identified Issue:';
+            
+            const reasonText = document.createElement('p');
+            reasonText.className = 'section-text';
+            reasonText.textContent = data.summary?.reason || 'We have identified your issue based on the information provided.';
+            
+            reasonSection.appendChild(reasonLabel);
+            reasonSection.appendChild(reasonText);
+
+            // Solution section
+            const solutionSection = document.createElement('div');
+            solutionSection.className = 'summary-section';
+            
+            const solutionLabel = document.createElement('div');
+            solutionLabel.className = 'section-label';
+            solutionLabel.textContent = '🔧 Next Steps:';
+            
+            const solutionList = document.createElement('ul');
+            solutionList.className = 'solution-list';
+            
+            const solutions = data.summary?.solution || ['Our team will investigate and resolve this issue'];
+            solutions.forEach(item => {
+              const li = document.createElement('li');
+              li.textContent = item;
+              solutionList.appendChild(li);
+            });
+            
+            solutionSection.appendChild(solutionLabel);
+            solutionSection.appendChild(solutionList);
+
+            // Assemble card
+            card.appendChild(title);
+            card.appendChild(reasonSection);
+            card.appendChild(solutionSection);
 
             chat.appendChild(card);
 
