@@ -1,0 +1,383 @@
+{
+  "questions": {
+    "identification": [
+      {
+        "id": "ID_01",
+        "question": "Please provide the account number or phone number linked to your SLT connection.",
+        "type": "input"
+      },
+      {
+        "id": "ID_02",
+        "question": "Are you the owner of this SLT connection?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ID_03",
+        "question": "Are you currently at the location where the service is installed?",
+       	"type": "yes_no"
+      },
+      {
+        "id": "ID_04",
+        "question": "Has this issue been reported before by anyone else using this connection?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ID_05",
+        "question": "Is your NIC number registered with this connection?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ID_06",
+        "question": "Is your billing address the same as your service installation address?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ID_07",
+        "question": "Is your preferred contact method SMS or call?",
+        "type": "multiple_choice",
+        "options": ["1. SMS", "2. Call"]
+      },
+      {
+        "id": "ID_08",
+        "question": "Do you have access to your MySLT app account?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ID_09",
+        "question": "Do you want to receive updates about this issue via SMS?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ID_10",
+        "question": "Have you recently changed your contact number?",
+        "type": "yes_no"
+      }
+    ],
+
+    "network_connectivity": [
+      {
+        "id": "NET_01",
+        "question": "Are you currently experiencing slow internet or buffering?",
+        "type": "yes_no"
+      },
+      {
+        "id": "NET_02",
+        "question": "Are all devices in your home experiencing the same issue?",
+        "type": "yes_no"
+      },
+      {
+        "id": "NET_03",
+        "question": "Is the LOS or red light blinking on your router/ONT?",
+        "type": "yes_no"
+      },
+      {
+        "id": "NET_04",
+        "question": "Did your internet stop working suddenly?",
+        "type": "yes_no"
+      },
+      {
+        "id": "NET_05",
+        "question": "What type of connection are you using?",
+        "type": "multiple_choice",
+        "options": ["1. Fiber", "2. ADSL", "3. 4G", "4. LTE"]
+      },
+      {
+        "id": "NET_06",
+        "question": "How often does the disconnection occur?",
+        "type": "multiple_choice",
+        "options": [
+          "1. Every few minutes",
+          "2. Once every hour",
+          "3. Only at night",
+          "4. Randomly"
+        ]
+      },
+      {
+        "id": "NET_07",
+        "question": "Is your router showing a stable green light for PON/DSL?",
+        "type": "yes_no"
+      },
+      {
+        "id": "NET_08",
+        "question": "Is the issue present even after restarting the router?",
+        "type": "yes_no"
+      },
+      {
+        "id": "NET_09",
+        "question": "Do you experience slow speed only during peak hours (7–11 PM)?",
+        "type": "yes_no"
+      },
+      {
+        "id": "NET_10",
+        "question": "Is the speed significantly lower than your subscribed package?",
+        "type": "yes_no"
+      }
+    ],
+
+    "billing_account": [
+      {
+        "id": "BILL_01",
+        "question": "Is your monthly bill higher than you expected?",
+        "type": "yes_no"
+      },
+      {
+        "id": "BILL_02",
+        "question": "Did you activate any extra packages recently?",
+        "type": "yes_no"
+      },
+      {
+        "id": "BILL_03",
+        "question": "Did you receive any SMS or email notifications of bill changes?",
+        "type": "yes_no"
+      },
+      {
+        "id": "BILL_04",
+        "question": "Do you want to check your outstanding balance?",
+        "type": "yes_no"
+      },
+      {
+        "id": "BILL_05",
+        "question": "Are you being charged for any services you do not recognize?",
+        "type": "yes_no"
+      },
+      {
+        "id": "BILL_06",
+        "question": "Is there a late payment fee included in this bill?",
+        "type": "yes_no"
+      },
+      {
+        "id": "BILL_07",
+        "question": "Have you upgraded your package within the last 30 days?",
+        "type": "yes_no"
+      },
+      {
+        "id": "BILL_08",
+        "question": "Do you want a breakdown of your current month charges?",
+        "type": "yes_no"
+      },
+      {
+        "id": "BILL_09",
+        "question": "Have you made a payment recently but it is not reflected?",
+        "type": "yes_no"
+      },
+      {
+        "id": "BILL_10",
+        "question": "Is your bill amount the highest it has ever been?",
+        "type": "yes_no"
+      }
+    ],
+
+    "service_activation": [
+      {
+        "id": "ACT_01",
+        "question": "Did you request a new service activation recently?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ACT_02",
+        "question": "Did you receive a confirmation SMS for the activation?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ACT_03",
+        "question": "Has it been more than 24 hours since the request?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ACT_04",
+        "question": "Is the new service still inactive?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ACT_05",
+        "question": "What type of service did you request?",
+        "type": "multiple_choice",
+        "options": ["1. Fiber", "2. 4G", "3. LTE", "4. Package upgrade"]
+      },
+      {
+        "id": "ACT_06",
+        "question": "Did a technician visit your premises?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ACT_07",
+        "question": "Did the technician complete the installation?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ACT_08",
+        "question": "Did the activation fail once before?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ACT_09",
+        "question": "Is the service showing pending in the MySLT app?",
+        "type": "yes_no"
+      },
+      {
+        "id": "ACT_10",
+        "question": "Did you restart your router after activation?",
+        "type": "yes_no"
+      }
+    ],
+
+    "equipment_infrastructure": [
+      {
+        "id": "EQ_01",
+        "question": "Is your router or ONT overheating?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EQ_02",
+        "question": "Are any lights on your router blinking unusually?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EQ_03",
+        "question": "Do you suspect any damaged cables or connectors?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EQ_04",
+        "question": "Have you restarted the router recently?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EQ_05",
+        "question": "Is the power adapter functioning properly?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EQ_06",
+        "question": "Do you hear any buzzing noise coming from the router?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EQ_07",
+        "question": "Is your ONT placed in a well-ventilated area?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EQ_08",
+        "question": "Have you changed any router settings recently?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EQ_09",
+        "question": "Is your router more than 3 years old?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EQ_10",
+        "question": "Have you noticed unusual noises or spark sounds from the adapter?",
+        "type": "yes_no"
+      }
+    ],
+
+    "premise_setup": [
+      {
+        "id": "PREM_01",
+        "question": "Has your router been moved from its original position recently?",
+        "type": "yes_no"
+      },
+      {
+        "id": "PREM_02",
+        "question": "Is there any internal wiring that looks loose or damaged?",
+        "type": "yes_no"
+      },
+      {
+        "id": "PREM_03",
+        "question": "Was your connection installed within the last 30 days?",
+        "type": "yes_no"
+      },
+      {
+        "id": "PREM_04",
+        "question": "Are there any new electronic devices placed near the router?",
+        "type": "yes_no"
+      },
+      {
+        "id": "PREM_05",
+        "question": "Is your router placed inside a closed space or cupboard?",
+        "type": "yes_no"
+      },
+      {
+        "id": "PREM_06",
+        "question": "Are there any pets or children who could have tampered with wiring?",
+        "type": "yes_no"
+      },
+      {
+        "id": "PREM_07",
+        "question": "Have you extended your internal wiring recently?",
+        "type": "yes_no"
+      },
+      {
+        "id": "PREM_08",
+        "question": "Is the router placed far away from your main devices?",
+        "type": "yes_no"
+      },
+      {
+        "id": "PREM_09",
+        "question": "Was there any construction inside your house recently?",
+        "type": "yes_no"
+      },
+      {
+        "id": "PREM_10",
+        "question": "Is your router placed at a low height (e.g., on the floor)?",
+        "type": "yes_no"
+      }
+    ],
+
+    "external_factors": [
+      {
+        "id": "EXT_01",
+        "question": "Is your area experiencing heavy rain right now?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EXT_02",
+        "question": "Is there a current power outage in your area?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EXT_03",
+        "question": "Have you seen any damaged or loose outdoor fiber cables?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EXT_04",
+        "question": "Is there road construction happening near your area?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EXT_05",
+        "question": "Is your area affected by strong winds today?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EXT_06",
+        "question": "Has your area been experiencing frequent power cuts?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EXT_07",
+        "question": "Are there any known area-level outages reported by neighbors?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EXT_08",
+        "question": "Has there been recent digging or cable work near your street?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EXT_09",
+        "question": "Is there ongoing maintenance work in your area?",
+        "type": "yes_no"
+      },
+      {
+        "id": "EXT_10",
+        "question": "Is your area experiencing thunderstorms?",
+        "type": "yes_no"
+      }
+    ]
+  }
+}

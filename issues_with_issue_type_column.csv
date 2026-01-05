@@ -1,0 +1,11 @@
+Number,District,Network Connectivity,Billing & Account,Service Activation,Equipment & Infrastructure,Premise Setup,Issue Type
+011861547,Colombo,Frequent disconnections during peak hours,,,,,Network Issue
+024340286,Vavuniya,,"Bill overcharged by 10,000",Activation stuck at backend server,,,Billing Issue
+033730049,Gampaha,,,,ONT device overheating,Premise wiring not completed,Equipment Issue
+047785913,Hambantota,No signal due to damaged outdoor fiber line,,,,,Network Issue
+052301100,Nuwara Eliya,,,Activation request not processed,Router power adapter faulty,,Activation Issue
+081981727,Kandy,,Customer charged twice for monthly rental,,,,Billing Issue
+026384152,Trincomalee,,,SIM activation delay in radius server,,Installation postponed due to technician unavailability,Activation Issue
+021368948,Jaffna,Slow browsing caused by DNS sync failure,,,,,Network Issue
+091404079,Galle,,,Activation code mismatch during provisioning,,,Activation Issue
+011661099,Colombo,,,,Fiber drop cable broken near wall outlet,Incorrect ONT placement causing weak signal,Equipment Issue

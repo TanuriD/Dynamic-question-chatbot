@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLT IVR Chatbot System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 SLT IVR Chatbot System</h1>
+            <p>Intelligent Complaint Handling with District-Based Issue Detection</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Chatbot Interface -->
+            <div class="chatbot-container">
+                <div class="chat-header">
+                    <div class="chat-title">
+                        <span class="bot-icon">🤖</span>
+                        <span>SLT Support Bot</span>
+                    </div>
+                    <div class="chat-status" id="chat-status">Ready</div>
+                </div>
+
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message bot-message">
+                        <div class="message-content">
+                            <p>Welcome to SLT Customer Support! Please enter your phone number to begin.</p>
+                        </div>
+                        <div class="message-time"></div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area" id="phone-input-area">
+                    <input type="text" id="phone-input" placeholder="Enter your phone number (e.g., 011861547)" maxlength="15">
+                    <button onclick="startChat()" class="btn-send">Start Chat</button>
+                </div>
+
+                <div class="chat-input-area" id="answer-input-area" style="display: none;">
+                    <div class="yes-no-buttons" id="yes-no-buttons">
+                        <button onclick="answerQuestion('yes')" class="btn-yes">Yes</button>
+                        <button onclick="answerQuestion('no')" class="btn-no">No</button>
+                    </div>
+                    <div class="number-buttons" id="number-buttons" style="display: none;">
+                        <!-- Number buttons will be dynamically generated -->
+                    </div>
+                </div>
+
+                <div class="chat-footer">
+                    <div class="progress-info">
+                        <span>Questions: <span id="question-count">0</span>/5</span>
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Panel (for testing) -->
+            <div class="admin-panel">
+                <h2>Admin Panel - District Issues Configuration</h2>
+                <div class="admin-content">
+                    <div class="info-section">
+                        <h3>Current Session Info</h3>
+                        <div id="session-info" class="session-info">
+                            <p>No active session</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
